@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+
+    <title>NG Gulp Starter</title>
+
+    <!-- build:css assets/css/lib.css -->
+
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" />
+    <!-- endbower -->
+
+    <!-- endbuild -->
+
+    <!-- build:css assets/css/app.css -->
+
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <!-- endinject -->
+
+
+    <!-- endbuild -->
+
+
+</head>
+
+<body ng-app="donutApp">
+
+<!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+<div ui-view></div>
+
+<!-- hotlinks start-->
+
+<!-- hotlinks end-->
+
+<!-- build:js assets/js/lib.js -->
+
+<!-- bower:js -->
+<script src="../bower_components/angular/angular.js"></script>
+<!-- endbower -->
+
+<!-- endbuild -->
+
+
+<!-- build:js assets/js/app.js -->
+
+<!-- inject:config:js -->
+<!-- endinject -->
+
+<!-- inject:js -->
+<script src="app/app.js"></script>
+<script src="app/appConfig.js"></script>
+<script src="app/appController.js"></script>
+<script src="app/components/home/home.controller.js"></script>
+<!-- endinject -->
+
+<!-- inject:templates:js -->
+<script src="assets/html/templates.js"></script>
+<!-- endinject -->
+
+<!-- endbuild -->
+
+</body>
+</html>
