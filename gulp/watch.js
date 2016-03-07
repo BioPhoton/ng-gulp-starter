@@ -12,8 +12,8 @@ var config = require('./config'),
 var defaultConfig = {
     bowerFiles : config.bower.directory+'**/*',
     cssFiles : config.clientApp+'**/'+scssFoldername+'*.scss',
-    jsFiles : config.client+'**/*.js',
-    htmlFiles : config.client+'**/*.js'
+    jsFiles : config.clientApp+'**/*.js',
+    htmlFiles : config.clientApp+'**/*.html'
 };
 
 ////////////////
@@ -33,13 +33,10 @@ if('watch' in config) {
 
 //__________________________________________________________________________________________________
 
-
-
-
 /**
  * watch all
  */
-gulp.task('watch-all', ['watch-css', 'watch-html','watch-js'], function(done) {
+gulp.task('watch-all', ['watch-scss', 'watch-html','watch-js','watch-bower'], function(done) {
     helper.log('Watching all files for changes');
     return done();
 });
@@ -50,21 +47,21 @@ gulp.task('watch-bower', function(done) {
         .on('change', changeEvent);
 });
 
-gulp.task('watch-js', function(done) {
+gulp.task('watch-js', ['inject-js'], function(done) {
     helper.log('Watching all projects .js files for changes and inject into index.html');
     return helper.watch(watchConfig.jsFiles, ['inject-js'])
         .on('change', changeEvent);
 });
 
-gulp.task('watch-scss', function(done) {
+gulp.task('watch-scss', ['inject-css'], function(done) {
     helper.log('Watching all .scss files for changes and recompile scss');
-    return helper.watch(watchConfig.cssFiles, ['compile-css'])
+    return helper.watch(watchConfig.cssFiles, ['inject-css'])
             .on('change', changeEvent);
 });
 
-gulp.task('watch-html', ['html'], function(done) {
+gulp.task('watch-html', ['inject-html'], function(done) {
     helper.log('Watching all .html files for changes and rebuild templatecache');
-    return helper.watch(watchConfig.htmlFiles, ['html'])
+    return helper.watch(watchConfig.htmlFiles, ['inject-html'])
             .on('change', changeEvent);
 });
 

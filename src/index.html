@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="appcache.manifest">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <title>NG Gulp Starter</title>
 
@@ -19,11 +19,9 @@
 
     <!-- build:css assets/css/app.css -->
 
-
     <!-- inject:css -->
-    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/app.css">
     <!-- endinject -->
-
 
     <!-- endbuild -->
 
@@ -31,9 +29,9 @@
 </head>
 
 <body ng-app="donutApp">
-
+<h1>LOWERCASE</h1>
 <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
-<div ui-view></div>
+<div ui-view=""></div>
 
 <!-- hotlinks start-->
 

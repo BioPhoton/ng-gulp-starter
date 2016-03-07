@@ -3,15 +3,13 @@
 module.exports = (function() {
     var gulp = require('gulp');
     var del = require('del');
-    var args = require('yargs').argv;
     var notify = require('gulp-notify');
-    var config = require('./config');
     var extendify = require('extendify');
     var merge = require('merge-stream');
+    var cheerio = require('gulp-cheerio');
     var $ = require('gulp-load-plugins')();
 
     var helper = {};
-
 
     var arrayMergeExtend = extendify({
         inPlace: false,
@@ -40,7 +38,7 @@ module.exports = (function() {
         if (typeof(msg) === 'object') {
             for (var item in msg) {
                 if (msg.hasOwnProperty(item)) {
-                    $.util.log($.util.colors.blue(msg[item]));
+                    $.util.log($.util.colors.lightblue(msg[item]));
                 }
             }
         } else {
@@ -65,6 +63,17 @@ module.exports = (function() {
         return merged;
     }
     helper.bulkCopy = bulkCopy;
+
+    function htmlEdit(src,dest,callback,done) {
+        return gulp.src(src)
+            .pipe(cheerio(function ($, file, done) {
+                callback($);
+                done();
+            }))
+            .pipe(gulp.dest(dest));
+    }
+
+    helper.htmlEdit = htmlEdit;
 
 
     /**
@@ -105,7 +114,7 @@ module.exports = (function() {
     }
     helper.inject = inject;
 
-/* function errorhandler(title) {
+   function errorhandler(title) {
 
         return notify.onError({
             title: title + ' error(s)',
@@ -113,7 +122,7 @@ module.exports = (function() {
         });
     }
     helper.errorHandler = errorhandler;
-*/
+
     /**
      * Order a stream
      * @param   {Stream} src   The gulp.src stream
@@ -155,22 +164,5 @@ module.exports = (function() {
     function formatPercent(num, precision) {
         return (num * 100).toFixed(precision);
     }
-
-    /**
-     * getNodeOptions
-     * @param isDev
-     * @returns {{script: *, delayTime: number, env: {PORT: (*|port), NODE_ENV: string}, watch: *[]}}
-     */
-   function getNodeOptions(isDev) {
-        return {
-            script: config.nodeServer,
-            delayTime: 1,
-            env: {
-                'PORT': port,
-                'NODE_ENV': isDev ? 'dev' : 'build'
-            },
-            watch: [config.server]
-        };
-   }
 
 })();

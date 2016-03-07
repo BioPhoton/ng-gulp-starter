@@ -5,12 +5,13 @@ var gulp = require('gulp'),
     $ = require('gulp-load-plugins')();
 
 var config = require('./config'),
-    assetsFolder = (config.assetsFolder)?config.assetsFolder:config.client+'assets/',
+    assetsFolder = (config.assetsFolder)?config.client+config.assetsFolder:config.client+'assets/',
     assetsCssFolder = (config.assetsCssFolder)?config.assetsCssFolder:'css/',
     mainCssFile = (config.mainCssFile)?config.mainCssFile:'app.css',
-    assetsFontsFolder = (config.assetsFontsFolder)?config.assetsFontsFolder:'css/',
-    assetsImagesFolder = (config.assetsImagesFolder)?config.assetsImagesFolder:'images/',
-    scssFoldername = (config.scssFoldername)?config.scssFoldername:'scss/';
+    scssFoldername = (config.scssFoldername)?config.scssFoldername:'scss/',
+    assetsFontsFolder = (config.assetsFontsFolder)?config.assetsFontsFolder:'fonts/',
+    assetsImagesFolder = (config.assetsImagesFolder)?config.assetsImagesFolder:'images/';
+
 
 var defaultConfig = {
         fontCopies : [],
@@ -74,10 +75,10 @@ gulp.task('clean-css', function(done) {
     return helper.clean([stylesConfig.sassDest + '**/*.*'], done);
 });
 gulp.task('compile-css', ['clean-css'], function(done) {
-    helper.log('parsing scss from '+stylesConfig.sassScr+', autoprefixe it and save it to '+stylesConfig.sassDest+mainCssFile);
+    helper.log('parsing scss from '+stylesConfig.sassScr+', autoprefixe and save it to '+stylesConfig.sassDest+mainCssFile);
     return gulp.src(stylesConfig.sassScr)
         .pipe($.concat(mainCssFile))
-        .pipe($.plumber()) // exit gracefully if something fails after this
+        //.pipe($.plumber()) // exit gracefully if something fails after this
         .pipe($.sass(stylesConfig.sassOptions))
         .pipe($.autoprefixer(stylesConfig.autoprefixerOptions))
         .pipe(gulp.dest(stylesConfig.sassDest), done);

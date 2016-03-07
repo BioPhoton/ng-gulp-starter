@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence');
 
 var config = require('./config'),
-    assetsFolder = (config.assetsFolder)?config.assetsFolder:'assets/',
+    assetsFolder = (config.assetsFolder)?config.client+config.assetsFolder:config.client+'assets/',
     assetsCssFolder = (config.assetsCssFolder)?config.assetsCssFolder:'css/',
     assetsHtmlFolder = (config.assetsHtmlFolder)?config.assetsHtmlFolder:'html/',
     mainCssFile = 'app.css',
@@ -38,7 +38,7 @@ var defaultConfig = {
         //html
         injectHtmlSrc: assetsFolder + assetsHtmlFolder,
         injectHtmlOrder : [],
-        templateCache : config.client + assetsFolder + assetsHtmlFolder + 'templates.js'
+        templateCache : assetsFolder + assetsHtmlFolder + 'templates.js'
     };
 
 ////////////////
@@ -86,9 +86,8 @@ gulp.task('inject-bower', function(done) {
         .pipe(gulp.dest(injectConfig.injectDest), done);
 });
 
-gulp.task('inject-css',['setup-assets'], function(done) {
-    helper.log('Wiring the css dependencies into index.html');
-    console.log(injectConfig.injectCssSrc);
+gulp.task('inject-css',['compile-css'], function(done) {
+    helper.log('Wiring the css dependencies form '+injectConfig.injectCssSrc+' into '+injectConfig.injectDest+'index.html');
     return gulp
         .src(injectConfig.injectScr)
         .pipe(helper.inject(injectConfig.injectCssSrc))
@@ -106,7 +105,6 @@ gulp.task('inject-js', function(done) {
 
 gulp.task('inject-html',['compile-html'], function(done) {
     helper.log('Wiring the templatecache dependencies into index.html');
-console.log(injectConfig);
     return gulp
         .src(injectConfig.injectScr)
         .pipe(helper.inject(injectConfig.templateCache, 'templates'))

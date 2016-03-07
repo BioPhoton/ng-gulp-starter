@@ -8,6 +8,7 @@ module.exports = (function() {
 
     //dir paths
     var root = './',
+        buildFolder = root+'dist/',
         resources = root+'resources/',
         bower = {
             json: require('../bower.json'),
@@ -22,7 +23,7 @@ module.exports = (function() {
         clientAssets = client + assetsFolder,
         baseDirs = ['./', client],
         clientApp = client + app,
-        build = './dist/',
+
         assetsFontsFolder = 'fonts/',
         assetsImagesFolder = 'images/';
 
@@ -49,18 +50,28 @@ module.exports = (function() {
             }
         ];
 
+    var staticBuildCopies = [
+        {
+            src:[
+                clientAssets+assetsImagesFolder+'**/*.*',
+            ],
+            dest:buildFolder + assetsFolder + assetsImagesFolder,
+            name : 'assetImages'
+        },
+        {
+            src:[
+                clientAssets+assetsFontsFolder+'**/*.*',
+            ],
+            dest:buildFolder + assetsFolder + assetsFontsFolder,
+            name : 'assetFonts'
+        }
+    ];
 
     //default envs
     var env = {
         staging : 'staging',
         live : 'live'
     };
-
-
-    //@TODO refactore
-    var fonts = 'fonts/';
-    var images = 'images/';
-    var css = 'css/';
 
     var config = {
         app : app,
@@ -69,7 +80,7 @@ module.exports = (function() {
             fontCopies : fontCopies,
             imageCopies : imageCopies
         },
-        //templateCache
+        //templateCache : {},
         inject : {
             injectJsSrc : ['./app.js'],
             injectJsOrder: [
@@ -79,33 +90,23 @@ module.exports = (function() {
                 '**/assets/html/tempaltes.js'
             ]
         },
+        manifest : {
+            //manifestCopies : fontCopies.concat(imageCopies),
+        },
+        build : {
+            staticBuildCopies : staticBuildCopies,
+        },
         env:env,
-        //versioConfig
+        //versioConfig : {},
         root : root,
         baseDirs:baseDirs,
         client: client,
-        build: build,
+        buildFolder: buildFolder,
         resources : resources,
         assetsFolder : assetsFolder,
         clientAssets : clientAssets,
-        fonts : fonts,
-        images: images,
         index: client + 'index.html',
 
-        css : css,
-        html: client + '**/*.html',
-        allJs: [
-            './src/**/*.js',
-            './*.js'
-        ],
-
-        /**
-         * optimized files
-         */
-        optimized: {
-            app: 'app.js',
-            lib: 'lib.js'
-        },
         /**
          * browser sync
          */
@@ -118,8 +119,6 @@ module.exports = (function() {
         defaultPort: '8001'
 
     };
-
-
 
     return config;
 
