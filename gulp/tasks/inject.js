@@ -2,11 +2,11 @@
 
 var gulp = require('gulp'),
     args = require('yargs').argv,
-    helper = require('./helper'),
+    helper = require('../helper'),
     wiredep = require('wiredep').stream,
     runSequence = require('run-sequence');
 
-var config = require('./config'),
+var config = require('../config'),
     assetsFolder = (config.assetsFolder)?config.client+config.assetsFolder:config.client+'assets/',
     assetsCssFolder = (config.assetsCssFolder)?config.assetsCssFolder:'css/',
     assetsHtmlFolder = (config.assetsHtmlFolder)?config.assetsHtmlFolder:'html/',
@@ -18,7 +18,7 @@ var defaultConfig = {
         injectDest : config.client,
         //bower
         wiredepOptions : {
-            bowerJson:  require('../bower.json'),
+            bowerJson:  require('../../bower.json'),
             directory:  './bower_components/',
             ignorePath: '../../',
             exclude: [

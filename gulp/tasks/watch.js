@@ -2,10 +2,10 @@
 
 var gulp = require('gulp'),
     args = require('yargs').argv,
-    helper = require('./helper')
+    helper = require('../helper')
 ;
 
-var config = require('./config'),
+var config = require('../config'),
     scssFoldername = (config.scssFoldername)?config.scssFoldername:'scss/';
 
 

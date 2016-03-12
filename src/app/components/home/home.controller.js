@@ -5,10 +5,8 @@
         .module('gulp-starter.components.home.controller', [])
         .controller('HomeController', HomeController);
 
-    //HomeController.$inject = [];
-
-    /** @ngInject */
-    function HomeController() {
+  
+    function HomeController($q) {
 
         // jshint validthis: true
         var vm = this;

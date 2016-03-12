@@ -1,9 +1,9 @@
 'use strict';
-var config = require('./../config');
+var config = require('../config');
 
 var gulp = require('gulp');
 var args = require('yargs').argv;
-var helper = require('./../helper');
+var helper = require('../helper');
 var fs = require('fs');
 var scp = require('gulp-scp2');
 var $ = require('gulp-load-plugins')();

@@ -25,8 +25,11 @@ module.exports = (function() {
         clientApp = client + app,
 
         assetsFontsFolder = 'fonts/',
-        assetsImagesFolder = 'images/';
+        assetsImagesFolder = 'images/',
+        indexFileName = 'index.html';
 
+
+    //file copy sets
     var fontCopies = [
         {
             src:bower.directory + 'font-awesome/fonts/**.*',
@@ -69,6 +72,7 @@ module.exports = (function() {
 
     //default envs
     var env = {
+        local : 'local',
         staging : 'staging',
         live : 'live'
     };
@@ -94,7 +98,7 @@ module.exports = (function() {
             //manifestCopies : fontCopies.concat(imageCopies),
         },
         build : {
-            staticBuildCopies : staticBuildCopies,
+            staticBuildCopies : staticBuildCopies
         },
         env:env,
         //versioConfig : {},
@@ -105,7 +109,7 @@ module.exports = (function() {
         resources : resources,
         assetsFolder : assetsFolder,
         clientAssets : clientAssets,
-        index: client + 'index.html',
+        index: client + indexFileName,
 
         /**
          * browser sync
@@ -116,7 +120,6 @@ module.exports = (function() {
          * Bower and NPM files
          */
         bower: bower,
-        defaultPort: '8001'
 
     };
 

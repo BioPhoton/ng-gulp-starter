@@ -1,6 +1,5 @@
 //@TODO rename file into app.routing.js
-;
-(function () {
+;(function () {
 	'use strict';
 
 	angular.module('gulp-starter', [])
@@ -9,12 +8,12 @@
 
 /////////////
 
-	//runFunction.$inject = [];
+
 	function runFunction() {
 
-	};
+	}
 
-	//configFunction.$inject = [];
+
 	function configFunction() {
 		//routing
 		$urlRouterProvider.otherwise('/app/home');
@@ -35,7 +34,7 @@
 			})
 			;
 
-	};
+	}
 
 
 })();

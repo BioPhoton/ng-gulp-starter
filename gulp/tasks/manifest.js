@@ -2,10 +2,10 @@
 
 var gulp = require('gulp');
 var args = require('yargs').argv;
-var helper = require('./helper');
+var helper = require('../helper');
 var $ = require('gulp-load-plugins')();
 
-var config = require('./config'),
+var config = require('../config'),
     assetsFolder = (config.assetsFolder)?config.client+config.assetsFolder:config.client+'assets/',
     indexFile = (config.index)?config.index: config.client + 'index.html',
     htmlSelector = 'html',

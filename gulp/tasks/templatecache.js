@@ -2,10 +2,10 @@
 
 var gulp = require('gulp'),
     args = require('yargs').argv,
-    helper = require('./helper'),
+    helper = require('../helper'),
     $ = require('gulp-load-plugins')();
 
-var config = require('./config'),
+var config = require('../config'),
     assetsFolder = (config.clientAssets)?config.clientAssets:config.client+'assets/',
     assetsHtmlFolder = (config.assetsFontsFolder)?config.assetsFontsFolder:'html/',
     templateCacheRoot =   (config.app)?config.app:"app/";

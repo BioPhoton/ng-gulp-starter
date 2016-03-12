@@ -1,9 +1,9 @@
 'use strict';
-var config = require('./config');
+var config = require('../config');
 
 var gulp = require('gulp');
 var args = require('yargs').argv;
-var helper = require('./helper');
+var helper = require('../helper');
 var browserSync = require('browser-sync').create();
 var $ = require('gulp-load-plugins')();
 

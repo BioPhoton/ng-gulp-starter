@@ -1,10 +1,10 @@
 'use strict';
 
 var gulp = require('gulp'),
-    helper = require('./helper'),
+    helper = require('../helper'),
     $ = require('gulp-load-plugins')();
 
-var config = require('./config'),
+var config = require('../config.js'),
     assetsFolder = (config.assetsFolder)?config.client+config.assetsFolder:config.client+'assets/',
     assetsCssFolder = (config.assetsCssFolder)?config.assetsCssFolder:'css/',
     mainCssFile = (config.mainCssFile)?config.mainCssFile:'app.css',

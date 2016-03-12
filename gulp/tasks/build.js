@@ -2,11 +2,11 @@
 
 var gulp = require('gulp');
 var args = require('yargs').argv;
-var helper = require('./helper');
+var helper = require('../helper');
 var runSequence = require('run-sequence');
 var $ = require('gulp-load-plugins')();
 
-var config = require('./config'),
+var config = require('../config'),
     assetsFolder = (config.assetsFolder)?config.client+config.assetsFolder:config.client+'assets/',
     indexFile = (config.index)?config.index: config.client + 'index.html',
     optimizedFiles = {
@@ -26,11 +26,11 @@ var defaultConfig = {
     htmlminOptions : {
         empty: true,                      // KEEP empty attributes
         //cdata: true,                      // KEEP CDATA from scripts
-        comments: false,                   // KEEP comments
+        //comments: false,                   // KEEP comments
         //ssi: true,                        // KEEP Server Side Includes
         //conditionals: true,               // KEEP conditional internet explorer comments
-        spare: true,                      // KEEP redundant attributes
-        quotes: true,                     // KEEP arbitrary quotes
+        //spare: true,                      // KEEP redundant attributes
+        //quotes: true,                     // KEEP arbitrary quotes
         //loose: true,                      // KEEP one whitespace
         //dom: {                            // options of !(htmlparser2)[https://github.com/fb55/htmlparser2]
         //    xmlMode: false,                     // Disables the special behavior for script/style tags (false by default)
@@ -51,7 +51,7 @@ var defaultConfig = {
  **/
 var buildConfig = defaultConfig;
 
-if('inject' in config) {
+if('build' in config) {
     buildConfig = helper.arrayConcatExtend(defaultConfig, config.build);
 }
 
@@ -76,7 +76,7 @@ gulp.task('clean-build', function(done) {
  */
 gulp.task('build', ['clean-build'], function(done) {
     helper.log('Building everything');
-    return runSequence('inject','compile-optimized','copy-static-build','inject-manifest','optimize-index',  done);
+    return runSequence('setup-assets','inject','compile-optimized','copy-static-build','inject-manifest','optimize-index',  done);
 });
 
 //organize font files for project
@@ -113,20 +113,21 @@ gulp.task('compile-optimized',['inject-html'], function () {
         .pipe(jsAppFilter.restore)
         // Get the vendor javascript
         .pipe(jslibFilter)
-        .pipe($.uglify()) // another option is to override wiredep to use min files
+        // another option is to override wiredep to use min files
+        .pipe($.uglify())
         .pipe(jslibFilter.restore)
         //add hashes to filenames
         // Take inventory of the file names for future rev numbers
-        //.pipe(notIndexFilter)
-        //.pipe($.rev())
-        //.pipe(notIndexFilter.restore)
+        .pipe(notIndexFilter)
+        .pipe($.rev())
+        .pipe(notIndexFilter.restore)
         // Replace the file names in the html with rev numbers
         //.pipe($.revReplace())
         .pipe(gulp.dest(buildConfig.buildFolder));
 });
 
 gulp.task('optimize-index', function(done) {
-    return gulp.src(buildConfig.buildFolder+'index.html')
+    return gulp.src(buildConfig.buildFolder+'index-*.html')
     .pipe($.htmlmin(buildConfig.htmlminOptions))
         .pipe(gulp.dest(buildConfig.buildFolder),done);
 
