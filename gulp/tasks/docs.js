@@ -1,10 +1,9 @@
 'use strict';
 
 var gulp = require('gulp');
-var fs = require('fs')
+var fs = require('fs');
 var helper = require('../helper');
 var $ = require('gulp-load-plugins')();
-
 
 
 var config = require('../config');
@@ -37,6 +36,41 @@ if('docs' in config) {
 ////////////////////////
 
 
+var gulp = require('gulp'),
+    angularJsdoc = require('gulp-angular-jsdoc');
+
+gulp.task('angularJsdoc', function () {
+    return gulp.src([docsConfig.srcFolder+'app/appConfig.js'])
+        .pipe(angularJsdoc('angularJsdoc'));
+});
+
+
+var jsdoc = require("gulp-jsdoc");
+
+gulp.task('jsdoc', function (done) {
+
+    return gulp.src(docsConfig.srcFolder+'app/appConfig.js')
+        .pipe(jsdoc('./jsdoc'), done);
+
+});
+
+
+var gulpDocs = require('gulp-ngdocs');
+gulp.task('ngdocs', [], function () {
+
+    var options = {
+        //scripts: [docsConfig.srcFolder+'**/*.js'],
+        html5Mode: true,
+        startPage: '/api',
+        title: "My Awesome Docs",
+        //image: "path/to/my/image.png",
+        //imageLink: "http://my-domain.com",
+        titleLink: "/api"
+    }
+    return gulp.src(docsConfig.srcFolder+'**/*.js')
+        .pipe(gulpDocs.process(options))
+        .pipe(gulp.dest('./ngdocs'));
+});
 
 var gutil = require('gulp-util')
 var gulpJsdoc2md = require('gulp-jsdoc-to-markdown')
@@ -53,5 +87,5 @@ gulp.task('docs', function () {
         .pipe($.rename(function (path) {
             path.extname = '.md'
         }))
-        .pipe(gulp.dest('docs'))
+        .pipe(gulp.dest('./docs'))
 })

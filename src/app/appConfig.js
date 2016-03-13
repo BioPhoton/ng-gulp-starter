@@ -4,10 +4,23 @@
     angular.module('gulp-starter.app.configurations', [])
         .config(appConfigurations);
 
-    //appConfigurations.$inject = [];
-
-    /** @ngInject */
+    /**
+     * @module:test
+     */
     function appConfigurations() {
+
+        /**
+         * @name add
+         * @param a
+         * @param b
+         * @returns {*}
+         */
+        function add(a,b) {
+            return a+b;
+        }
+
+
+
 
     };
 
