@@ -1,15 +1,26 @@
+/**
+ * helper.js
+ *
+ * This file requires following npm modules:
+ * ``
+ * npm install gulp gulp-load-plugins del gulp-notify extendify merge-stream --save-dev
+ * ``
+ *
+ */
+
 'use strict';
 
 module.exports = (function() {
     var gulp = require('gulp');
     var del = require('del');
+    var fs = require('fs');
     var notify = require('gulp-notify');
     var extendify = require('extendify');
     var merge = require('merge-stream');
-    var cheerio = require('gulp-cheerio');
     var $ = require('gulp-load-plugins')();
 
-    var helper = {};
+  //////////
+
 
     var arrayMergeExtend = extendify({
         inPlace: false,
@@ -26,9 +37,34 @@ module.exports = (function() {
         arrays : 'concat'
     });
 
-    helper.arrayMergeExtend = arrayMergeExtend;
-    helper.arrayMergeExtend = arrayReplaceExtend;
-    helper.arrayConcatExtend = arrayConcatExtend;
+    var helper = {
+      arrayMergeExtend: arrayMergeExtend,
+      arrayReplaceExtend: arrayReplaceExtend,
+      arrayConcatExtend: arrayConcatExtend,
+      getEnv: getEnv,
+      getEnvConfigJson: getEnvConfigJson,
+      log: log,
+      bulkCopy: bulkCopy,
+      clean: clean,
+      errorHandler: errorhandler,
+      bytediffFormatter: bytediffFormatter,
+      watch: watch
+    };
+
+  return helper;
+
+  ///////////////////
+
+
+
+    function getEnv(){
+       return process.env.NODE_ENV || "local";
+    }
+
+
+    function getEnvConfigJson(filepath) {
+        return JSON.parse(fs.readFileSync(filepath));
+    }
 
     /**
      * Log a message or series of messages using chalk's blue color.
@@ -45,7 +81,7 @@ module.exports = (function() {
             $.util.log($.util.colors.blue(msg));
         }
     }
-    helper.log = log;
+
 
     /**/
     function bulkCopy(copyArray, done) {
@@ -53,7 +89,7 @@ module.exports = (function() {
         var merged = merge();
 
         for(var i = 0; i<=copyArray.length-1; i++) {
-            helper.log('copy '+ ((copyArray[i].name)?copyArray[i].name:'') +' files from '+ copyArray[i].src +' to '+ copyArray[i].dest);
+            log('copy '+ ((copyArray[i].name)?copyArray[i].name:'') +' files from '+ copyArray[i].src +' to '+ copyArray[i].dest);
             var move = gulp.src(copyArray[i].src)
                 .pipe(gulp.dest(copyArray[i].dest));
 
@@ -62,18 +98,6 @@ module.exports = (function() {
 
         return merged;
     }
-    helper.bulkCopy = bulkCopy;
-
-    function htmlEdit(src,dest,callback,done) {
-        return gulp.src(src)
-            .pipe(cheerio(function ($, file, done) {
-                callback($);
-                done();
-            }))
-            .pipe(gulp.dest(dest));
-    }
-
-    helper.htmlEdit = htmlEdit;
 
 
     /**
@@ -85,34 +109,14 @@ module.exports = (function() {
         log('Cleaning: ' + $.util.colors.blue(path));
         return del(path, done);
     }
-    helper.clean = clean;
+
 
 
     function watch(src, tasks) {
         log('watch: ' + $.util.colors.blue(src));
         return gulp.watch(src, tasks);
     }
-    helper.watch = watch;
 
-
-
-
-    /**
-     * Inject files in a sorted sequence at a specified inject label
-     * @param   {Array}  src   glob pattern for source files
-     * @param   {String} label The label name
-     * @param   {Array}  order glob pattern for sort order of the files
-     * @returns {Stream} The stream
-     */
-   function inject(src, label, order) {
-        var options = { read: false, relative : true};
-        if (label) {
-            options.name = 'inject:' + label;
-        }
-
-        return $.inject(orderSrc(src, order), options);
-    }
-    helper.inject = inject;
 
    function errorhandler(title) {
 
@@ -121,23 +125,7 @@ module.exports = (function() {
             message: '<%= error.message %>'
         });
     }
-    helper.errorHandler = errorhandler;
 
-    /**
-     * Order a stream
-     * @param   {Stream} src   The gulp.src stream
-     * @param   {Array}  order Glob array pattern
-     * @returns {Stream} The ordered stream
-     *
-     *
-     */
-    function orderSrc (src, order) {
-        //order = order || ['**\/*'];
-        return gulp
-            .src(src)
-            .pipe($.if(order, $.order(order)));
-    }
-    helper.orderSrc = orderSrc;
 
     /**
      * Formatter for bytediff to display the size changes after processing
@@ -151,9 +139,6 @@ module.exports = (function() {
             + (data.endSize / 1000).toFixed(2) + ' kB and is '
             + formatPercent(1 - data.percent, 2) + '%' + difference;
     }
-    helper.bytediffFormatter = bytediffFormatter;
-
-    return helper;
 
     /**
      * Format a number as a percentage

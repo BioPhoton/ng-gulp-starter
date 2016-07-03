@@ -1,42 +1,14 @@
 {
-  "name": "ng-gulp-starter",
-  "version": "0.0.1",
-  "description": "Advanced gulp setup for angular js projects.",
-  "main": "dist/main.js",
-  "authors": [
-    "Michael Hladky <michael@hladky.at>"
-  ],
-  "license": "MIT",
-  "keywords": [
-    "Angular",
-    "Gulp",
-    "Karma",
-    "Jasmin",
-    "Serve",
-    "Build",
-    "Deploy"
-  ],
-  "homepage": "https://github.com/BioPhoton/ng-gulp-starter",
-  "moduleType": [
-    "node"
-  ],
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "angular": "^1.5.0",
-    "bootstrap-sass": "^3.3.6",
-    "font-awesome": "fontawesome#^4.5.0"
+  "name": "starterApp",
+  "version": "0.0.0",
+  "author": "Michael Hladky <michael@hladky.at>",
+  "description": "starterApp: A MVP project",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.1"
   },
-  "overrides": {
-    "font-awesome": {
-      "main": [
-        "css/font-awesome.css"
-      ]
-    }
+  "dependencies": {
+    "ionic-native": "https://github.com/driftyco/ionic-native",
+    "ng-file-upload": "^12.0.4"
   }
 }

@@ -4,122 +4,150 @@
  */
 'use strict';
 
-module.exports = (function() {
+module.exports = (function () {
+
+    var path = require('path');
+
+    var ENV_LOCAL = "local",
+        ENV_STAGING = "staging",
+        ENV_PRODUCTION = "production",
+        ENV_TESTING = "testing";
+
+    var validEnvs = [ENV_LOCAL, ENV_STAGING, ENV_PRODUCTION, ENV_TESTING];
+
 
     //dir paths
     var root = './',
-        buildFolder = root+'dist/',
-        resources = root+'resources/',
+        resourcesFolder = 'project_resources/',
+        src = root + 'src/',
+        buildFolder = root + 'www/',
+
+        baseDirs = [root, buildFolder],
         bower = {
             json: require('../bower.json'),
-            directory: './bower_components/',
-            ignorePath: '../../'
+            directory: root + path.join(root, buildFolder, 'lib')
+            //ignorePath: '../'
         },
-        src = './src/',
-        //optional wrapper folder here (src+'client/')
-        client = src,
-        app = 'app/',
+
+    //optional wrapper folder here (src+'client/')
+        client = buildFolder,
+
+        indexFileName = 'index.html',
+        appFolder = 'app/',
         assetsFolder = 'assets/',
-        clientAssets = client + assetsFolder,
-        baseDirs = ['./', client],
-        clientApp = client + app,
+        configFolder = 'config/',
+
+        buildAppFolder = buildFolder + appFolder,
 
         assetsFontsFolder = 'fonts/',
         assetsImagesFolder = 'images/',
-        indexFileName = 'index.html';
+        assetsTemplatecacheFolder = 'html/',
+
+        buildAssets = buildFolder + assetsFolder;
+
+    var envJsonFileName = "build.config.json",
+        envJsFileName = "build.config.js",
+        configFiles = {
+        default: root + configFolder + "base.config.json",
+        build: src + appFolder+ envJsonFileName
+    };
+    configFiles[ENV_LOCAL] = root + configFolder + ENV_LOCAL + ".config.json";
+    configFiles[ENV_STAGING] = root + configFolder + ENV_STAGING + ".config.json";
+    configFiles[ENV_PRODUCTION] = root + configFolder + ENV_PRODUCTION + ".config.json";
 
 
-    //file copy sets
-    var fontCopies = [
-        {
-            src:bower.directory + 'font-awesome/fonts/**.*',
-            dest:clientAssets + assetsFontsFolder + 'fontawesome',
-            name : 'fontawesome'
-        },
-        {
-            src:bower.directory + 'bootstrap-sass/assets/fonts/bootstrap/**.*',
-            dest:clientAssets + assetsFontsFolder + 'bootstrap',
-            name : 'bootstrap'
-        },
+    //file copy sets and templates
+    var mainCssFile = "app.css";
+    var minCssFile = "app.min.css";
+
+    var templateFileName = "templates.js";
+    var buildTemplatecacheFolder = buildAssets + assetsTemplatecacheFolder;
+
+    var templatecacheFiles = [
+        src + appFolder + '**/*.html',
+        '!' + indexFileName
     ];
 
+    var buildImagesFolder = buildAssets + assetsImagesFolder;
     var imageCopies = [
-            {
-                src:[
-                    resources+assetsImagesFolder+'default-avatar.jpg'
-                ],
-                dest:clientAssets +assetsImagesFolder,
-                name : 'defaultImages'
-            }
-        ];
-
-    var staticBuildCopies = [
         {
-            src:[
-                clientAssets+assetsImagesFolder+'**/*.*',
+            src: [
+                resourcesFolder + assetsImagesFolder + 'logo.gif'
             ],
-            dest:buildFolder + assetsFolder + assetsImagesFolder,
-            name : 'assetImages'
-        },
-        {
-            src:[
-                clientAssets+assetsFontsFolder+'**/*.*',
-            ],
-            dest:buildFolder + assetsFolder + assetsFontsFolder,
-            name : 'assetFonts'
+            dest: buildImagesFolder,
+            name: 'defaultImages'
         }
     ];
 
-    //default envs
-    var env = {
-        local : 'local',
-        staging : 'staging',
-        live : 'live'
-    };
-
     var config = {
-        app : app,
-        clientApp : clientApp,
-        styles : {
-            fontCopies : fontCopies,
-            imageCopies : imageCopies
+        root: root,
+        src: src,
+        resourcesFolder: resourcesFolder,
+        buildFolder: buildFolder,
+        baseDirs: baseDirs,
+
+        indexFileName: indexFileName,
+        appFolder: appFolder,
+        assetsFolder: assetsFolder,
+        configFolder: configFolder,
+
+        buildAppFolder: buildAppFolder,
+        buildAssets: buildAssets,
+        buildIndex: buildFolder + indexFileName,
+
+        templateFileName: templateFileName,
+        mainCssFile: mainCssFile,
+        minCssFile: minCssFile,
+        srcIndex: src + indexFileName,
+
+        //
+        env: {
+            injectConfigSrc:buildFolder+envJsFileName,
+            envJsonFileName:envJsonFileName,
+            envJsFileName:envJsFileName,
+            configFiles: configFiles
         },
-        //templateCache : {},
-        inject : {
-            injectJsSrc : ['./app.js'],
+      scripts: {
+            //injectJsSrc : [path.join(buildAppFolder,'**','*.js')],
             injectJsOrder: [
-                '**/app/app.js',
-                '**/app/*.js',
+                '**/app/commons/*.js',
+                '**/app/commons/**/*.js',
+                '**/app/components/*.js',
+                '**/app/components/**/*.js',
                 '**/app/**/*.js',
-                '**/assets/html/tempaltes.js'
+                '**/app/*.js',
+                '**/app/app.js'
             ]
         },
-        manifest : {
-            //manifestCopies : fontCopies.concat(imageCopies),
+        //
+        images: {
+            imageDest: buildImagesFolder,
+            imageCopies: imageCopies
         },
-        build : {
-            staticBuildCopies : staticBuildCopies
+        templatecache: {
+            templateSrc: templatecacheFiles,
+            templateDest: buildTemplatecacheFolder,
+            templateCacheOptions: {
+                module: "commons.caching.templates"
+            },
+            injectTemplateSrc: ''
+
         },
-        env:env,
-        //versioConfig : {},
-        root : root,
-        baseDirs:baseDirs,
-        client: client,
-        buildFolder: buildFolder,
-        resources : resources,
-        assetsFolder : assetsFolder,
-        clientAssets : clientAssets,
-        index: client + indexFileName,
+        //
+        typescript: {
+            srcFiles: [path.join(src, '**', '*.ts'), path.join(src, '**', '*.js')]
+        },
+        //
 
         /**
          * browser sync
          */
-        browserReloadDelay: 1000,
+        browserReloadDelay: 1000 * 6,
 
         /**
          * Bower and NPM files
          */
-        bower: bower,
+        bower: bower
 
     };
 

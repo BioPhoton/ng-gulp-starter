@@ -1,8 +1,16 @@
-/* jshint node: true */
 /**
- *  Welcome to your gulpfile!
- *  The gulp tasks are splitted in several files in the gulp directory
- *  because putting all here was really too long
+ * gulpfile.js
+ *
+ * This file requires following npm modules:
+ * ``
+ * npm install gulp gulp-load-plugins wrench gulp-task-listing  --save-dev
+ * ``
+ * 
+ *  The gulp tasks are separated into several files in the gulp/tasks directory
+ *
+ *  When starting gulp this file will load all files located in ./gulp/tasks.
+ *  To use the files located in inactive just drag them into the tasks folder and install their required modules
+ *
  */
 
 'use strict';
@@ -19,9 +27,9 @@ var $ = require('gulp-load-plugins')();
  *  in order to load all gulp tasks
  */
 wrench.readdirSyncRecursive('./gulp/tasks').filter(function(file) {
-    return (/\.(js|coffee)$/i).test(file);
+  return (/\.(js|coffee)$/i).test(file);
 }).map(function(file) {
-    require('./gulp/tasks/' + file);
+  require('./gulp/tasks/' + file);
 });
 
 /**
