@@ -1,6 +1,6 @@
 {
   "system_instance": "localhost:8080",
-  "API_version": "v1",
+  "api_version": "v1",
   "stripeKey":"your key here",
   "raven": {
     "public_dsn": "your raven key"

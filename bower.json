@@ -1,6 +1,6 @@
 {
   "name": "starterApp",
-  "version": "0.0.0",
+  "version": "0.0.14",
   "author": "Michael Hladky <michael@hladky.at>",
   "description": "starterApp: A MVP project",
   "private": "true",

@@ -5,7 +5,7 @@
  *
  * This File requires following npm modules:
  * ``
- * $ npm install gulp yargs --save-dev
+ * $ npm install gulp yargs browser-sync --save-dev
  * ``
  *
  */

@@ -130,17 +130,17 @@ gulp project:init
 gulp project:compile
 ```
     
-   or by using the ```project:watch``` task
-    ```bash
-    gulp project:watch
-    ```
+or by using the ```project:watch``` task
+```bash
+gulp project:watch
+```
       
   5. 1. Environment specific compilations are done by setting then ```NODE_ENV``` var.
      By default the environment is set to local
   
-  ```bash
-  $NODE_ENV='staging' gulp project:compile
-  ```
+```bash
+$NODE_ENV='staging' gulp project:compile
+```
 
 
 ###Setup custom environment variables
@@ -188,13 +188,14 @@ You can run the project (without native functionality) in the browser.
 ```bash
 $ ionic serve
 ```
+
 You could implement templatecache and minified css by using following command.
 ```bash
 $ gulp project:optimize
 ```
 
 ##Serve project in emulator
-???
+@TODO write doc
 
 ##Serve project on device
 

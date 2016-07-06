@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html >
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <title>mcTaxi app</title>
+  <title>Test App</title>
 
   <!-- build:css assets/css/lib.bundle.css -->
 
@@ -41,22 +41,33 @@
 
   <!-- endbuild -->
 
-
   <!-- build:js assets/js/app.bundle.js -->
 
   <!-- static script references start -->
+  <script>
+    if(Raven) {
+      Raven.config(app_config.raven.public_dsn, {
+        release: app_config.version
+      })
+        .addPlugin(Raven.Plugins.Angular)
+        .install();
+    }
+    else {
+      console.log('raven not setup');
+    }
+  </script>
   <!-- static script references end -->
 
-  <!-- inject:templates:js -->
+  <!-- inject:js -->
   <!-- endinject -->
 
-  <!-- inject:js -->
+  <!-- inject:templates:js -->
   <!-- endinject -->
 
   <!-- endbuild -->
 
 </head>
-<body ng-app="starterApp">
+<body ng-app="app">
 
 <ion-nav-bar class="nav-title-slide-ios7 bar-light">
   <ion-nav-back-button class="button-icon ion-arrow-left-c">

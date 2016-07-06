@@ -51,7 +51,9 @@ gulp.task('script:inject', function(done) {
 
   var target = gulp.src(scriptConfig.injectScr);
   var sources = gulp.src(scriptConfig.injectJsSrc)
-    //fixed order of insert by first sorting to this then do angularorder
+    //fixed order of insert by first sorting with order then do angular order
+    //!!NOTICE sometimes this still don't work. 
+    // If this is the case a quick workaround is to reference the files statically in scr/index.html 
     .pipe($.order(scriptConfig.injectJsOrder))
     .pipe($.angularFilesort());
 
