@@ -10,7 +10,7 @@ describe('Common describe ', function(){
 
   it('should validate the credentials for a successful login and display the My Dinners view', function() {
     // TODO: test successful login
-  })
+  });
 
   it('should display a popup for an unsuccessful login', function() {
     // TODO: test unsuccessful login
