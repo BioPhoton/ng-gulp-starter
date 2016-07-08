@@ -1,9 +1,7 @@
 namespace common {
-
+  
 export const common = angular
-  .module('common', [
-    'main-menu'
-  ])
+  .module('common', [])
   .controller('commonController', CommonController)
   .config(($stateProvider, $urlRouterProvider) => {
     console.log('common config');

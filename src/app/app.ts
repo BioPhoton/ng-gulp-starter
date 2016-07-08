@@ -10,7 +10,7 @@ angular.module('app', [
   'components',
   'commons.caching.templates'
   ])
-  .constant('configConstant', ConfigConstant.Default)
+  .constant('configConstant', function(){return ConfigConstant.Default})
   .run(($ionicPlatform) => {
     return new RunFunction($ionicPlatform);
   });
